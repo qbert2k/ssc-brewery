@@ -24,6 +24,13 @@ public class PasswordEncodingTest {
     }
 
     @Test
+    void testBcryptStrength() {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(15);
+
+        System.out.println(bcrypt.encode("strongpasswd"));
+    }
+
+    @Test
     @SuppressWarnings("deprecation")
     void testSha256() {
         PasswordEncoder sha256 = new StandardPasswordEncoder();
