@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BeerControllerIT extends BaseIT {
 
     @Test
-    void initCreationFormAdmin() throws Exception {
-        mockMvc.perform(get("/beers/new").with(httpBasic("spring", "password")))
+    void initCreationFormSpring() throws Exception {
+        mockMvc.perform(get("/beers/new").with(httpBasic("spring", "guru")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/createBeer"))
                 .andExpect(model().attributeExists("beer"));
@@ -29,7 +29,7 @@ public class BeerControllerIT extends BaseIT {
 
     @Test
     void initCreationFormCustomer() throws Exception {
-        mockMvc.perform(get("/beers/new").with(httpBasic("scott", "password")))
+        mockMvc.perform(get("/beers/new").with(httpBasic("customer", "secret")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/createBeer"))
                 .andExpect(model().attributeExists("beer"));
