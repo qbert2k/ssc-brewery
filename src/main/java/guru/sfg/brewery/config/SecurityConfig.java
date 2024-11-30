@@ -27,8 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(
-                restHeaderAuthFilter(authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class);
+                        restHeaderAuthFilter(authenticationManager()),
+                        UsernamePasswordAuthenticationFilter.class)
+                .csrf().disable();
 
         http
                 .authorizeRequests(authorize -> authorize
@@ -66,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth.inMemoryAuthentication()
                 .withUser("provider")
-                .password("{bcrypt15}$2a$15$sacuPwfQFT5E1PASR/YSTuNXavfDJQoFX.hljH4vZI89x1bNErmqu")
+                .password("{bcrypt10}$2a$10$JDrD2kEvMIjcw9sNTsnZheNhwNGfZJbP.y9XSTpz8nmo71tDecKRu")
                 .roles("PROVIDER");
     }
 }

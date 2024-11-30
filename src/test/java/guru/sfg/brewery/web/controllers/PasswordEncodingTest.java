@@ -25,7 +25,7 @@ public class PasswordEncodingTest {
 
     @Test
     void testBcryptStrength() {
-        PasswordEncoder bcrypt = new BCryptPasswordEncoder(15);
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
 
         System.out.println(bcrypt.encode("strongpasswd"));
     }
