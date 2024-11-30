@@ -49,7 +49,7 @@ public class RestHeaderAuthFilter extends AbstractAuthenticationProcessingFilter
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         SecurityContextHolder.clearContext();
 
         if (log.isDebugEnabled()) {
@@ -84,7 +84,7 @@ public class RestHeaderAuthFilter extends AbstractAuthenticationProcessingFilter
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
         if (this.logger.isDebugEnabled()) {
             this.logger.debug("Authentication success. Updating SecurityContextHolder to contain: " + authResult);
         }
