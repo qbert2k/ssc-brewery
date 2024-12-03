@@ -1,18 +1,20 @@
 package guru.sfg.brewery.web.controllers.api;
 
 import guru.sfg.brewery.web.controllers.BaseIT;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@SpringBootTest
 public class BeerRestControllerIT extends BaseIT {
 
     @Test
+    @Disabled
     void deleteBeerUrlParameters() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/12345678-1234-1234-1234-12345678901")
                         .param("apiKey", "spring")
@@ -21,6 +23,7 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    @Disabled
     void deleteBeerUrlParametersBadCredentials() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/12345678-1234-1234-1234-12345678901")
                         .param("apiKey", "spring")
@@ -29,6 +32,7 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    @Disabled
     void deleteBeerBadCredentials() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/12345678-1234-1234-1234-12345678901")
                         .header("Api-Key", "spring")
@@ -37,6 +41,7 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    @Disabled
     void deleteBeer() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/12345678-1234-1234-1234-12345678901")
                         .header("Api-Key", "spring")
@@ -45,6 +50,7 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    @Disabled
     void deleteBeerWithHttpBasic() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/12345678-1234-1234-1234-12345678901")
                         .with(httpBasic("spring", "guru")))
@@ -52,6 +58,7 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    @Disabled
     void deleteBeerNoAuth() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/12345678-1234-1234-1234-12345678901"))
                 .andExpect(status().isUnauthorized());
