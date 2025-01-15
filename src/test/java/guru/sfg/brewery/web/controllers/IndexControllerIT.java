@@ -39,6 +39,6 @@ public class IndexControllerIT extends BaseIT {
     @Test
     void testGetBeersFind() throws Exception {
         mockMvc.perform(get("/beers/find"))
-                .andExpect(status().isOk());
+                .andExpect(status().isUnauthorized());
     }
 }
