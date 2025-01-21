@@ -1,31 +1,15 @@
-/*
- *  Copyright 2020 the original author or authors.
- *
- * This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 package guru.sfg.brewery.web.controllers;
-
 
 import guru.sfg.brewery.domain.Beer;
 import guru.sfg.brewery.repositories.BeerInventoryRepository;
 import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.security.perms.BeerCreatePermission;
+import guru.sfg.brewery.security.perms.BeerReadPermission;
+import guru.sfg.brewery.security.perms.BeerUpdatePermission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,7 +23,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-
 @RequiredArgsConstructor
 @RequestMapping("/beers")
 @Controller
@@ -48,14 +31,14 @@ public class BeerController {
     private final BeerRepository beerRepository;
     private final BeerInventoryRepository beerInventoryRepository;
 
-    @PreAuthorize("hasAuthority('beer.read')")
+    @BeerReadPermission
     @RequestMapping("/find")
     public String findBeers(Model model) {
         model.addAttribute("beer", Beer.builder().build());
         return "beers/findBeers";
     }
 
-    @PreAuthorize("hasAuthority('beer.read')")
+    @BeerReadPermission
     @GetMapping
     public String processFindFormReturnMany(Beer beer, BindingResult result, Model model) {
         // find beers by name
@@ -78,7 +61,7 @@ public class BeerController {
         }
     }
 
-    @PreAuthorize("hasAuthority('beer.read')")
+    @BeerReadPermission
     @GetMapping("/{beerId}")
     public ModelAndView showBeer(@PathVariable UUID beerId) {
         ModelAndView mav = new ModelAndView("beers/beerDetails");
@@ -87,14 +70,14 @@ public class BeerController {
         return mav;
     }
 
-    @PreAuthorize("hasAuthority('beer.create')")
+    @BeerCreatePermission
     @GetMapping("/new")
     public String initCreationForm(Model model) {
         model.addAttribute("beer", Beer.builder().build());
         return "beers/createBeer";
     }
 
-    @PreAuthorize("hasAuthority('beer.create')")
+    @BeerCreatePermission
     @PostMapping("/new")
     public String processCreationForm(Beer beer) {
         //ToDO: Add Service
@@ -111,7 +94,7 @@ public class BeerController {
         return "redirect:/beers/" + savedBeer.getId();
     }
 
-    @PreAuthorize("hasAuthority('beer.update')")
+    @BeerUpdatePermission
     @GetMapping("/{beerId}/edit")
     public String initUpdateBeerForm(@PathVariable UUID beerId, Model model) {
         if (beerRepository.findById(beerId).isPresent())
@@ -119,7 +102,7 @@ public class BeerController {
         return "beers/createOrUpdateBeer";
     }
 
-    @PreAuthorize("hasAuthority('beer.update')")
+    @BeerUpdatePermission
     @PostMapping("/{beerId}/edit")
     public String processUpdateForm(@Valid Beer beer, BindingResult result) {
         if (result.hasErrors()) {
