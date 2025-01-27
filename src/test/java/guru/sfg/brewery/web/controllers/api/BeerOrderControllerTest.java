@@ -2,6 +2,7 @@ package guru.sfg.brewery.web.controllers.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.sfg.brewery.domain.Beer;
+import guru.sfg.brewery.domain.BeerOrder;
 import guru.sfg.brewery.domain.Customer;
 import guru.sfg.brewery.repositories.BeerOrderRepository;
 import guru.sfg.brewery.repositories.BeerRepository;
@@ -144,6 +145,41 @@ public class BeerOrderControllerTest extends BaseIT {
     void listOrdersNoAuth() throws Exception {
         mockMvc.perform(get(API_ROOT + stPeteCustomer.getId()))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getByOrderIdNotAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + stPeteCustomer.getId() + "/orders/" + beerOrder.getId()))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @WithUserDetails("spring")
+    @Test
+    void getByOrderIdAdmin() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + stPeteCustomer.getId() + "/orders/" + beerOrder.getId()))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @WithUserDetails(STPETE_USER)
+    @Test
+    void getByOrderIdCustomerAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + stPeteCustomer.getId() + "/orders/" + beerOrder.getId()))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @WithUserDetails(DUNEDIN_USER)
+    @Test
+    void getByOrderIdCustomerNotAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + stPeteCustomer.getId() + "/orders/" + beerOrder.getId()))
+                .andExpect(status().isForbidden());
     }
 
     @Disabled
