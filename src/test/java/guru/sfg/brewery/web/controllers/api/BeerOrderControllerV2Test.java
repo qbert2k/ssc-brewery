@@ -9,7 +9,6 @@ import guru.sfg.brewery.repositories.BeerRepository;
 import guru.sfg.brewery.repositories.CustomerRepository;
 import guru.sfg.brewery.web.controllers.BaseIT;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -79,7 +78,6 @@ public class BeerOrderControllerV2Test extends BaseIT {
                 .andExpect(status().isOk());
     }
 
-    @Disabled
     @Transactional
     @Test
     void getByOrderIdNotAuth() throws Exception {
@@ -87,5 +85,35 @@ public class BeerOrderControllerV2Test extends BaseIT {
 
         mockMvc.perform(get(API_ROOT + beerOrder.getId()))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Transactional
+    @WithUserDetails("spring")
+    @Test
+    void getByOrderIdAdmin() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + beerOrder.getId()))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Transactional
+    @WithUserDetails(STPETE_USER)
+    @Test
+    void getByOrderIdCustomerAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + beerOrder.getId()))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Transactional
+    @WithUserDetails(DUNEDIN_USER)
+    @Test
+    void getByOrderIdCustomerNotAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(API_ROOT + beerOrder.getId()))
+                .andExpect(status().isNotFound());
     }
 }
