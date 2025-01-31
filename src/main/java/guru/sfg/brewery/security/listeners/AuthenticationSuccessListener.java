@@ -1,0 +1,22 @@
+package guru.sfg.brewery.security.listeners;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+public class AuthenticationSuccessListener {
+
+    @EventListener
+    public void listenAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
+        log.debug("User Logged In Okay");
+    }
+
+    @EventListener
+    public void listenAuthenticationFailureBadCredentialsEvent(AuthenticationFailureBadCredentialsEvent event) {
+        log.debug("Bad Credentials");
+    }
+}
