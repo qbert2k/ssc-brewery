@@ -62,7 +62,8 @@ public class UserController {
         User user = getUser();
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
-            ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle3faRequired(false);
+            //((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
+            user.setGoogle2faRequired(false);
 
             return "index";
         } else {

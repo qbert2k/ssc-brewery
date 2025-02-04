@@ -85,7 +85,7 @@ public class User implements UserDetails, CredentialsContainer {
     private String google2faSecret;
 
     @Transient
-    private Boolean google3faRequired = true;
+    private Boolean google2faRequired = true;
 
     @Override
     public void eraseCredentials() {
