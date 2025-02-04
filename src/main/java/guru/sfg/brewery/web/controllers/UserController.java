@@ -27,7 +27,7 @@ public class UserController {
     public String register2fa(Model model) {
         User user = getUser();
         String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL("SFG", user.getUsername(),
-                googleAuthenticator.createCredentials());
+                googleAuthenticator.createCredentials(user.getUsername()));
 
         log.debug("Google QR URL: {}", url);
 
@@ -62,7 +62,6 @@ public class UserController {
         User user = getUser();
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
-            //((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
             user.setGoogle2faRequired(false);
 
             return "index";
