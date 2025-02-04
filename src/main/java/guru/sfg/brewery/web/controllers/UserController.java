@@ -37,10 +37,37 @@ public class UserController {
 
     @PostMapping("/register2fa")
     public String confirm2fa(@RequestParam Integer verifyCode) {
+        User user = getUser();
 
-        // TODO: Impl
+        log.debug("Entered Code is: {}", verifyCode);
 
-        return "index";
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+            User savedUser = userRepository.findById(user.getId()).orElseThrow();
+            savedUser.setUseGoogle2fa(true);
+            userRepository.save(savedUser);
+
+            return "index";
+        } else {
+            return "user/register2fa";
+        }
+    }
+
+    @GetMapping("/verify2fa")
+    public String verify2fa() {
+        return "user/verify2fa";
+    }
+
+    @PostMapping("/verify2fa")
+    public String verifyPostOf2fa(@RequestParam Integer verifyCode) {
+        User user = getUser();
+
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+            ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle3faRequired(false);
+
+            return "index";
+        } else {
+            return "user/register2fa";
+        }
     }
 
     private static User getUser() {
