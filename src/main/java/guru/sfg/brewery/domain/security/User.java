@@ -1,6 +1,7 @@
 package guru.sfg.brewery.domain.security;
 
 import guru.sfg.brewery.domain.Customer;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "application_user")
 public class User implements UserDetails, CredentialsContainer {
 
     @Id

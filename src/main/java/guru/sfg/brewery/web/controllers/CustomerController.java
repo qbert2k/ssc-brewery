@@ -5,6 +5,7 @@ import guru.sfg.brewery.repositories.CustomerRepository;
 import guru.sfg.brewery.security.perms.CustomerCreatePermission;
 import guru.sfg.brewery.security.perms.CustomerReadPermission;
 import guru.sfg.brewery.security.perms.CustomerUpdatePermission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 

@@ -6,6 +6,7 @@ import guru.sfg.brewery.repositories.BeerRepository;
 import guru.sfg.brewery.security.perms.BeerCreatePermission;
 import guru.sfg.brewery.security.perms.BeerReadPermission;
 import guru.sfg.brewery.security.perms.BeerUpdatePermission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
